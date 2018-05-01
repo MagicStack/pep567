@@ -8,34 +8,37 @@ __all__ = ('ContextVar', 'Context', 'Token', 'copy_context')
 _NO_DEFAULT = object()
 
 
-class _ContextData:
+try:
+    from immutables import Map as _ContextData
+except ImportError:
+    class _ContextData:
 
-    def __init__(self):
-        self._mapping = dict()
+        def __init__(self):
+            self._mapping = dict()
 
-    def __getitem__(self, key):
-        return self._mapping[key]
+        def __getitem__(self, key):
+            return self._mapping[key]
 
-    def __contains__(self, key):
-        return key in self._mapping
+        def __contains__(self, key):
+            return key in self._mapping
 
-    def __len__(self):
-        return len(self._mapping)
+        def __len__(self):
+            return len(self._mapping)
 
-    def __iter__(self):
-        return iter(self._mapping)
+        def __iter__(self):
+            return iter(self._mapping)
 
-    def set(self, key, value):
-        copy = _ContextData()
-        copy._mapping = self._mapping.copy()
-        copy._mapping[key] = value
-        return copy
+        def set(self, key, value):
+            copy = _ContextData()
+            copy._mapping = self._mapping.copy()
+            copy._mapping[key] = value
+            return copy
 
-    def delete(self, key):
-        copy = _ContextData()
-        copy._mapping = self._mapping.copy()
-        del copy._mapping[key]
-        return copy
+        def delete(self, key):
+            copy = _ContextData()
+            copy._mapping = self._mapping.copy()
+            del copy._mapping[key]
+            return copy
 
 
 class ContextMeta(type(collections.abc.Mapping)):
