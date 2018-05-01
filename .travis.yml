@@ -4,6 +4,12 @@ python:
   - 3.5
   - 3.6
 
+env:
+  - USE_IMMUTABLES=no
+  - USE_IMMUTABLES=yes
+
+install:
+  - if [[ $USE_IMMUTABLES == 'yes' ]]; then pip install -e .[HAMT]; else pip install -e .; fi
+
 script:
-  - pip install -e .
   - python setup.py test

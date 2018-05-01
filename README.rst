@@ -6,7 +6,13 @@ PEP 567 Backport
 ================
 
 This package implements a backport of Python 3.7 ``contextvars``
-module (see PEP 567) for Python 3.6.
+module (see PEP 567) for Python 3.6 and 3.5.
+
+In Python 3.7, ``contextvars`` uses an immutable mapping type based
+on HAMT, which is backported to Python 3.6 and 3.5 as `immutables
+<https://github.com/MagicStack/immutables/>`_, and listed as an
+optional dependency here as ``HAMT``. It is boosted by C code in
+CPython like CPython 3.7, thus recommended for general use.
 
 **Important:** at this moment this package does not provide an
 asyncio event loop with PEP 567 support yet.  Stay tuned for updates.
@@ -35,7 +41,7 @@ Installation
 
 .. code-block:: bash
 
-    $ pip install contextvars
+    $ pip install contextvars[HAMT]
 
 
 Usage
@@ -56,7 +62,7 @@ Listing as a Dependency
 The good news is that the standard library always takes the
 precedence over site packages, so even if a local ``contextvars``
 module is installed, the one from the standard library will be used.
-Therefore you can simply list "contextvars" in your
+Therefore you can simply list ``contextvars[HAMT]`` in your
 ``requirements.txt`` or ``setup.py`` files.
 
 Another option is to use `"platform specific dependencies"
@@ -71,7 +77,7 @@ Another option is to use `"platform specific dependencies"
         name="Project",
         ...
         install_requires=[
-            'contextvars;python_version<"3.7"'
+            'contextvars[HAMT];python_version<"3.7"'
         ]
     )
 
