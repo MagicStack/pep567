@@ -16,6 +16,9 @@ setuptools.setup(
     author_email='hello@magic.io',
     packages=['contextvars'],
     provides=['contextvars'],
+    install_requires=[
+        'immutables==0.5',
+    ],
     license='Apache License, Version 2.0',
     classifiers=[
         'Development Status :: 3 - Alpha',
