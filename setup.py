@@ -17,7 +17,7 @@ setuptools.setup(
     packages=['contextvars'],
     provides=['contextvars'],
     install_requires=[
-        'immutables==0.6',
+        'immutables>=0.6',
     ],
     license='Apache License, Version 2.0',
     classifiers=[
