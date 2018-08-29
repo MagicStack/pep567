@@ -1,3 +1,4 @@
+import asyncio
 import collections.abc
 import threading
 
@@ -186,15 +187,25 @@ def copy_context():
 
 
 def _get_context():
-    ctx = getattr(_state, 'context', None)
+    state = _get_state()
+    ctx = getattr(state, 'context', None)
     if ctx is None:
         ctx = Context()
-        _state.context = ctx
+        state.context = ctx
     return ctx
 
 
 def _set_context(ctx):
-    _state.context = ctx
+    state = _get_state()
+    state.context = ctx
+
+
+def _get_state():
+    loop = asyncio._get_running_loop()
+    if loop is None:
+        return _state
+    task = asyncio.Task.current_task(loop=loop)
+    return _state if task is None else task
 
 
 _state = threading.local()
